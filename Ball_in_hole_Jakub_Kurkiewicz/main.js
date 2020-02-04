@@ -1,6 +1,7 @@
 
 let ball = document.querySelector("#orb");                     
-let container = document.querySelector("#box");  
+let container = document.querySelector("#box"); 
+let timer = document.querySelector("#stoper"); 
 let hole;  
 let holeY;
 let holeX;
@@ -12,19 +13,40 @@ let speedX = 0;
 let speedY = 0;
 let gameStart = false;
 let el;
-
+let t0;
+let t1;
+let stoper = false;
+let sec;
+let inter;
 
 window.addEventListener('deviceorientation', changePos)
 
+
+
+
+
+function myTimer() {
+  
+    t1 = Math.floor(new Date().getTime() / 1000);
+     sec = Math.floor((t1 - t0));
+    timer.innerHTML = sec;
+    console.log("Call to doSomething took " +sec+ " milliseconds.");
+   
+  }
+
 function start(){                                            
     gameStart=true;
+    timer.innerHTML = 0;
     spawnHole();                       
     moveBall();  
     document.getElementById("start").hidden=true;
     ball.style.visibility = "visible"
+    t0 = Math.floor(new Date().getTime() / 1000);
+    inter = setInterval(myTimer, 1000);
 }
 
 function restart(){   
+    timer.innerHTML = 0;
     //window.location.reload(true);        
     el = document.getElementsByClassName("holesss")
     el.remove();                   
@@ -33,6 +55,8 @@ function restart(){
     spawnHole();                
     moveBall();                
     document.getElementById("restart").hidden=true;
+    t0 = Math.floor(new Date().getTime() / 1000);
+    inter = setInterval(myTimer, 1000);
 }
 
 function changePos(e){         
@@ -71,8 +95,23 @@ function moveBall(){
    if(getDistance(cut_holeX,cut_holeY,posX,posY) <  (((hole.offsetWidth/2) + (ball.offsetWidth/2))-2)){
     document.getElementById("restart").hidden=false;
     hole.style.backgroundColor = "red";
+    stoper = true;
    }
-    
+   if(stoper==true){
+    function myStopFunction() {
+        clearInterval(inter);
+      }
+      myStopFunction()
+    let endtime = sec;
+    timer.innerHTML = endtime;
+    stoper = false
+ }
+
+
+
+
+
+
 
     if(gameStart==true){
         window.requestAnimationFrame(moveBall)
@@ -99,3 +138,6 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
         }
     }
 }
+
+
+

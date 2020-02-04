@@ -23,3 +23,11 @@
     width: 100px;
     height: 100px;
 }
+#stoper{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 300px;
+    top: 10px;
+    font-size: 300%;
+}
